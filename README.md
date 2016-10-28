@@ -5,7 +5,7 @@ Simply configure and run our code, you will get the result for parallel sBSUM al
 
 To run our code, MPI need to be installed first. 
 
-Our C code need following data, which need to be generated first.
+Our C codes need following data, which need to be generated first.
 
 problem dimension - 'dim.txt', ex. 16242	 10
 
