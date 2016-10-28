@@ -1,7 +1,7 @@
 # SNMF
 C code for our sBSUM algorithm (parallel version), to reproduce our works on SNMF research.
 
-Simply configure and run our code, you will get the result for parallel sBSUM algorithm shown in section 4.3, fig. 5. To get results for other figures, slightly modification may apply.
+Simply configure and run our code, you will get the result for parallel sBSUM algorithm shown in section 5, fig. 5. To get results for other figures, slightly modification may apply.
 
 To run our code, MPI need to be installed first. 
 
