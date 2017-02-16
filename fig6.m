@@ -1,3 +1,17 @@
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% MATLAB code for our BSUM algorithm, to reproduce our works on SNMF research.
+% Simply run fig6.m, you will get the result for figure 6 shown in section V (C)
+% To get results for other figures, slightly modification may apply.
+% 
+% References:
+% [1] Qingjiang Shi, Haoran Sun, Songtao Lu, Mingyi Hong, and Meisam Razaviyayn.
+% "Inexact Block Coordinate Descent Methods For Symmetric Nonnegative Matrix Factorization."
+% arXiv preprint arXiv:1607.03092 (2016).
+% 
+% version 1.0 -- April/2016
+% Written by Haoran Sun (hrsun AT iastate.edu)
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
 clear
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9,7 +23,7 @@ maxtime = 5; % max running time
 nMC = 1;
 maxIter = 100000;
 nf=r;
-Xdata = exprnd(1, [n nf]);    
+Xdata = exprnd(1, [n nf]);
 M = generate_sparse_correlation_kernel(Xdata, .5, 0.1);
 % M = generate_self_tuning_gaussian_kernel(Xdata);
 for loop=1:nMC
@@ -38,13 +52,13 @@ for loop=1:nMC
     P4=sqrt(obj_vec_BSUM);
     P4_grad = grad_BSUM;
     P4_time = time_BSUM;
-   
+    
     disp('running cyclic vBSUM algorithm:')
     [X5 obj_vec_vBSUM grad_vBSUM, time_vBSUM] = SNMF_cyclic_vBSUM(M, maxIter, H0, maxtime);
     P5=sqrt(obj_vec_vBSUM);
     P5_grad = grad_vBSUM;
     P5_time = time_vBSUM;
-
+    
 end
 
 time1 = mean(P1_time, 1);
@@ -66,9 +80,9 @@ clf
 set(gcf, 'color', 'white')
 plot(time1, avg1/scale, '-.k');
 hold on;
-plot(time2, avg2/scale, '.c'); 
+plot(time2, avg2/scale, '.c');
 hold on;
-plot(time3, avg3/scale, ':r'); 
+plot(time3, avg3/scale, ':r');
 hold on;
 plot(time4, avg4/scale, 'b--');
 hold on;
@@ -89,13 +103,13 @@ clf
 set(gcf, 'color', 'white')
 semilogy(time1, avg1_grad, '-.k');
 hold on;
-semilogy(time2, avg2_grad, '.c'); 
+semilogy(time2, avg2_grad, '.c');
 hold on;
-semilogy(time3, avg3_grad, ':r'); 
+semilogy(time3, avg3_grad, ':r');
 hold on;
-semilogy(time4, avg4_grad, 'b--'); 
+semilogy(time4, avg4_grad, 'b--');
 hold on;
-semilogy(time5, avg5_grad, 'm-'); 
+semilogy(time5, avg5_grad, 'm-');
 ylabel('Optimality gap')
 xlabel('Cpu time (s)')
 legend('ANLS','Newton', 'rEVD', 'sBSUM', 'vBSUM');

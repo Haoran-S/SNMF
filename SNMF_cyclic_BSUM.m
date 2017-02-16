@@ -1,3 +1,17 @@
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% MATLAB code for our BSUM algorithm, to reproduce our works on SNMF research.
+% Simply run fig6.m, you will get the result for figure 6 shown in section V (C)
+% To get results for other figures, slightly modification may apply.
+% 
+% References:
+% [1] Qingjiang Shi, Haoran Sun, Songtao Lu, Mingyi Hong, and Meisam Razaviyayn.
+% "Inexact Block Coordinate Descent Methods For Symmetric Nonnegative Matrix Factorization."
+% arXiv preprint arXiv:1607.03092 (2016).
+% 
+% version 1.0 -- April/2016
+% Written by Haoran Sun (hrsun AT iastate.edu)
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
 function [X obj_vec, grad_vec, time_vec] = SNMF_cyclic_BSUM(M, maxIter, X0, maxtime)
 [nrow ncol] = size(X0);
 X = X0;
@@ -31,8 +45,6 @@ while(iter<maxIter)
                 DEL = sqrt(q^2/4+1/27*p^3);
                 x = (DEL+q/2)^(1/3)-(DEL-q/2)^(1/3);%nthroot(q/2-DEL, 3)+nthroot(q/2+DEL, 3);
             else
-                %[b c]
-                %c-b^2/3/a
                 stmp = b^3/27/a^3-d/a;
                 x = sign(stmp)*abs(stmp)^(1/3);%nthroot(stmp, 3);
             end
@@ -49,18 +61,12 @@ while(iter<maxIter)
             obj = obj+mind;
             X(i,j) = x;
         end
-        %obj_vec = [obj_vec obj];
-        %     diff = abs(obj_vec(end-1)-obj)/obj_vec(end-1)
-        %     if diff <= 1e-3
-        %        break;
-        %     end
     end
     if toc>maxtime
         break;
     end
     time_vec = [time_vec toc];
     obj_vec = [obj_vec abs(obj)];
-    %obj_vec = [obj_vec obj];
     grad_vec = [grad_vec norm_inf(X-max(X-((X*X')*X-X*M),0))];
 end
 toc
