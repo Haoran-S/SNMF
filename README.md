@@ -1,17 +1,10 @@
 # SNMF
-C code for our sBSUM algorithm (parallel version), to reproduce our works on SNMF research.
 
-Simply configure and run our code, you will get the result for parallel sBSUM algorithm shown in section 5, fig. 5. To get results for other figures, slightly modification may apply.
+MATLAB code for our BSUM algorithm, to reproduce our works on SNMF research.
 
-To run our code, MPI need to be installed first. 
+Simply run fig6.m, you will get the result for figure 6 shown in section V (C)
 
-Our C codes need following data, which need to be generated first.
-
-problem dimension - 'dim.txt', ex. 16242	 10
-
-problem matrix - 'dataM%d.txt', ex. y separate 16242 * (16242/y) matrix, where y denotes the number of processors we use.
-
-initial value - 'dataX.txt', ex. a random generated 16242 * 10 matrix
+To get results for other figures, slightly modification may apply.
 
 References:
 
