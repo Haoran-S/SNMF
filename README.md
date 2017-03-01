@@ -2,7 +2,7 @@
 
 MATLAB code for our BSUM algorithm, to reproduce our works on SNMF research.
 
-Simply run fig6.m, you will get the result for figure 6 shown in section V (C)
+Simply run main_compare.m, you will get the comparison result for all state-of-the-art algorithms
 
 To get results for other figures, slightly modification may apply.
 
