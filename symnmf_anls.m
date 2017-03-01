@@ -82,7 +82,6 @@ else
         end
         H = params.Hinit;
     else
-        %H = 2 * full(sqrt(mean(mean(A)) / k)) * rand(n, k);
         H0 = rand(n,k); 
         H = sqrt(max(trace(H0'*A*H0),0))/norm(H0'*H0, 'fro')*H0;
          H0 = abs(H);

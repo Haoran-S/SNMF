@@ -1,24 +1,21 @@
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% MATLAB code for our BSUM algorithm, to reproduce our works on SNMF research.
-% Simply run fig6.m, you will get the result for figure 6 shown in section V (C)
-% To get results for other figures, slightly modification may apply.
+function [X, obj_vec, grad_vec, time_vec] = SNMF_cyclic_vBSUM(M, maxIter, X0, maxtime)
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Cyclic vBSUM algorithm
 % 
 % References:
-% [1] Qingjiang Shi, Haoran Sun, Songtao Lu, Mingyi Hong, and Meisam Razaviyayn.
-% "Inexact Block Coordinate Descent Methods For Symmetric Nonnegative Matrix Factorization."
+% [1] Qingjiang Shi, Haoran Sun, Songtao Lu, Mingyi Hong, and Meisam Razaviyayn. 
+% "Inexact Block Coordinate Descent Methods For Symmetric Nonnegative Matrix Factorization." 
 % arXiv preprint arXiv:1607.03092 (2016).
 % 
 % version 1.0 -- April/2016
 % Written by Haoran Sun (hrsun AT iastate.edu)
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-function [X obj_vec grad_vec, time_vec] = SNMF_cyclic_vBSUM(M, maxIter, X0, maxtime)
-[nrow ncol] = size(X0);%nrow denotes the number of data points while ncol denotes the number of clusters
+[nrow, ncol] = size(X0); %nrow denotes the number of data points while ncol denotes the number of clusters
 if nrow<ncol
     error('The # of data points should be larger than the # of clusters')
 end
 X = X0;
-
 XGram = X0*X0';
 XtX = X'*X;
 MX = M*X;
@@ -34,14 +31,11 @@ while(iter<maxIter)
     Rndint = randperm(nrow);
     for index = 1:nrow
         i = Rndint(index);
-        xi = X(i, :)';
-        
+        xi = X(i, :)';       
         Pi = XtX-xi*xi';
-        
         sA = max(eig(Pi));
         B = sA*eye(ncol)-Pi;
         vtmp = MX(i,:)' - xi*M(i,i); 
-        
         stmp = xi'*xi;
         obj = obj - (stmp^2+2*(xi'*Pi*xi-M(i,i)*stmp)-4*vtmp'*xi);
         for inner_iter=1:10 
@@ -58,15 +52,12 @@ while(iter<maxIter)
                 xi = xtmp/norm_xtmp*t;
             end
         end
-
         stmp = xi'*xi;
-        obj = obj + (stmp^2+2*(xi'*Pi*xi-M(i,i)*stmp)-4*vtmp'*xi);
-        
+        obj = obj + (stmp^2+2*(xi'*Pi*xi-M(i,i)*stmp)-4*vtmp'*xi);        
         XtX = Pi+xi*xi';
         MX = MX-M(:,i)*(X(i,:)-xi');
         X(i,:) = xi';
     end
-
     if toc>maxtime
         break;
     end

@@ -1,23 +1,29 @@
-function [output W grad_vec time_vec]= uniqsymnmf(A,W,K,Nnum, maxtime)
-[N ~]=size(A);
-%[Us LA]=eigs(A);
+function [output, W, grad_vec, time_vec]= uniqsymnmf(A,W,K,Nnum, maxtime)
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Implementation of sEVD algorithm
+% 
+% References:
+% [1] Huang, Kejun, Nicholas D. Sidiropoulos, and Ananthram Swami. 
+% "Non-negative matrix factorization revisited: Uniqueness and algorithm for symmetric decomposition." 
+% IEEE Transactions on Signal Processing 62.1 (2014): 211-224.
+% 
+% [2] Qingjiang Shi, Haoran Sun, Songtao Lu, Mingyi Hong, and Meisam Razaviyayn. 
+% "Inexact Block Coordinate Descent Methods For Symmetric Nonnegative Matrix Factorization." 
+% arXiv preprint arXiv:1607.03092 (2016).
+% 
+% version 1.0 -- April/2016
+% Written by Haoran Sun (hrsun AT iastate.edu)
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
 tic
-%[Us LA] = ordered_eig(A, 'descend');
-%if min(diag(LA(1:K, 1:K)))<=0
-%   error('error')
-%end
-[Us LA] = eigs(A, K);
+[Us, LA] = eigs(A, K);
 B= Us(:,1:K)*sqrt(LA(1:K,1:K));
-%Q=eye(K,K);
-% W=zeros(N,K);
-output=[];%zeros(1,Nnum);
+output=[]; 
 grad_vec = [];
 time_vec = [];
 for i=1:Nnum
-    %[m,n]=size(B*Q);
-    
     F=W'*B;
-    [U S V]=svd(F);
+    [U, S, V]=svd(F);
     Q=V*U';
     W=max(0,B*Q);
     if toc>maxtime
